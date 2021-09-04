@@ -1,0 +1,4 @@
+C:\Users\ALIEN 17\Documents\JorgeMiguelRoldanReyes\JRoldanEjercicio2\ML\bin\Debug\ML.dll
+C:\Users\ALIEN 17\Documents\JorgeMiguelRoldanReyes\JRoldanEjercicio2\ML\bin\Debug\ML.pdb
+C:\Users\ALIEN 17\Documents\JorgeMiguelRoldanReyes\JRoldanEjercicio2\ML\obj\Debug\ML.dll
+C:\Users\ALIEN 17\Documents\JorgeMiguelRoldanReyes\JRoldanEjercicio2\ML\obj\Debug\ML.pdb

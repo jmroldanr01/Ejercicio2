@@ -1,0 +1,145 @@
+﻿@model ML.CTL_USERS
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="text-center">Usuario</h2>
+        </div>
+    </div>
+
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="~/Scripts/Usuario/Validaciones.js"></script>
+
+    <div class="row">
+        <div class="col-md-12">
+            @using (Html.BeginForm("Form", "CTL_USERS", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Id, new { @class = "hidden" })
+                            @Html.TextBoxFor(model => model.Id, new { @class = "form-control hidden" })
+                            @Html.ValidationMessageFor(model => model.Id)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Name)
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control" ,@id="txtName",@onkeypress="return SoloLetras(event)" })
+                            @Html.ValidationMessageFor(model => model.Name)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.LastName)
+                            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control", @id = "txtLastName", @onkeypress = "return SoloLetras(event)" })
+                            @Html.ValidationMessageFor(model => model.LastName)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.SurName)
+                            @Html.TextBoxFor(model => model.SurName, new { @class = "form-control", @id = "txtSurname", @onkeypress = "return SoloLetras(event)" })
+                            @Html.ValidationMessageFor(model => model.SurName)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Email)
+                            <div class="form-inline">
+                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control ", @id = "txtEmail", @style = "width:250px", @onblur = "ValidateEmail(event)" })
+                                <span id="lblEmailError" style="color:red"></span>
+
+                            </div>
+
+                            @Html.ValidationMessageFor(model => model.Email)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.UserName)
+                            @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", @id = "txtUserName" })
+                            @Html.ValidationMessageFor(model => model.UserName)
+                        </div>
+                    </div>
+                    @if (Model.Id == 0)
+                    {
+                          <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Password)
+                            @Html.TextBoxFor(model => model.Password, new { @class = "form-control ",@id="txtPassword",@type="Password" })
+                            @Html.ValidationMessageFor(model => model.Password)
+                        </div>
+                    </div>
+                    }
+                    else
+                    {
+                          <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Password, new{@class="hidden"})
+                            @Html.TextBoxFor(model => model.Password, new { @class = "form-control hidden",@id="txtPassword",@type="Password" })
+                            @Html.ValidationMessageFor(model => model.Password)
+                        </div>
+                    </div>
+                    }
+                  
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Parent)
+                            @Html.TextBoxFor(model => model.Parent, new { @class = "form-control", @id = "txtParent", @onkeypress = "return SoloNumeros(event)" })
+                            @Html.ValidationMessageFor(model => model.Parent)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Status)
+                            <div>
+                                @Html.RadioButtonFor(model => model.Status, "1", new { @style = "width:15px; height:15px" }) @Html.Label("Activado")
+                                @Html.RadioButtonFor(model => model.Status, "0", new { @style = "width:20px; height:20px" }) @Html.Label("Desactivado")
+
+
+                                @Html.ValidationMessageFor(model => model.Status)
+
+                            </div>
+
+                        </div>
+                    </div>
+                    @Html.HiddenFor(model => model.Status)
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Role.IdRole)
+                            @Html.DropDownListFor(model => model.Role.IdRole, new SelectList(Model.Role.Roles,"IdRole","RoleName"),"Selecciona un Role", new{ @class = "form-control", @id = "txtRol" })
+                            @Html.ValidationMessageFor(model => model.Role.IdRole)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @if (!(Model.Id == 0))
+                            {
+                            <a href="@Url.Action("FormPassword", "CTL_USERS", new { Id = Model.Id })">Cambiar Password</a>
+                            }
+                        </div>
+                    </div>
+                    
+
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <input type="submit" value="Guardar" class="btn btn-success" onclick="return Validate()"/>
+                            @Html.ActionLink("Regresar", "GetAll", "CTL_USERS", htmlAttributes: new { @class = "btn btn-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                
+            }
+
+        </div>
+    </div>
+
+</div>

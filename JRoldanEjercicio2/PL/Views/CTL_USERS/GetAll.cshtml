@@ -1,0 +1,110 @@
+﻿@model ML.CTL_USERS
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<div class="container">
+    <div class="row">
+        <h2 class="text-center">Usuario</h2>
+    </div>
+    @using (Html.BeginForm("Getall", "CTL_USERS", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class=" row">
+            <div class="form-inline">
+                <div class="col-md-2">
+                    <span>Name</span>
+                    <div>
+                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @id = "txtName" })
+                    </div>
+
+                </div>
+                <div class="col-md-2">
+                    <span>LastName</span>
+                    <div>
+                        @Html.TextBoxFor(model => model.LastName, new { @class = "form-control", @id = "txtLastName" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <span>SurName</span>
+                    <div>
+                        @Html.TextBoxFor(model => model.SurName, new { @class = "form-control" ,@id = "txtSurName" })
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <span>Email</span>
+                    <div>
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @style = "width:160px", @id = "txtEmail" })
+                        <button type="submit" id="buscar" style="border:0px; background-color:white">
+                            <span class=" btn btn-info glyphicon glyphicon-search"></span>
+                        </button>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    }
+
+    <hr style="border-color:white" />
+    <div class="row">
+        <div style="float:right; margin-bottom:1rem;">
+            @Html.ActionLink("+", "Form", "CTL_USERS", htmlAttributes: new { @class = "btn btn-success" })
+        </div>
+
+        <table class="table table-hover table-bordered table-responsive">
+            <thead style="background-color:black; color:white;">
+                <tr>
+                    <td class="text-center">Editar</td>
+                    <td class="hidden">Id</td>
+                    <td class="text-center">Name</td>
+                    <td class="text-center">LastName</td>
+                    <td class="text-center">SurName</td>
+                    <td class="text-center">UserName</td>
+                    <td class="text-center">Email</td>
+                    <td class="text-center">Parent</td>
+                    <td class="text-center">Status</td>
+                    <td class="text-center">RoleName</td>
+                    <td class="text-center">Eliminar</td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!(Model.Usuarios==null)) 
+                {           
+                foreach (ML.CTL_USERS usuario in Model.Usuarios)
+                {
+                    <tr>
+                        <td class="text-center"><a class="btn btn-warning glyphicon glyphicon-edit" href="@Url.Action("Form", "CTL_USERS", new { Id = usuario.Id })"></a></td>
+                        <td class="hidden">Id</td>
+                        <td class="text-center">@usuario.Name</td>
+                        <td class="text-center">@usuario.LastName</td>
+                        <td class="text-center">@usuario.SurName</td>
+                        <td class="text-center">@usuario.UserName</td>
+                        <td class="text-center">@usuario.Email</td>
+                        <td class="text-center">@usuario.Parent</td>
+                        @if(usuario.Status==1){
+                          <td class="text-center">Activado</td>  
+                        }else{
+                            <td class="text-center">Desactivado</td>
+                        }
+                        <td class="text-center">@usuario.Role.RoleName</td>
+                        <td class="text-center"><a class="btn btn-danger glyphicon glyphicon-trash " href="@Url.Action("Delete", "CTL_USERS", new { Id = usuario.Id })" onclick="return confirm('Estas seguro que deseas eliminar este registro?');"></a></td>
+                    </tr>
+                }
+               
+                }
+            </tbody>
+        </table>
+        @if (Model.Usuarios == null)
+        {
+         <div class="alert alert-warning text-center" role="alert">
+                      No se ha encontrado su busqueda
+           </div>
+                
+        }
+    </div>
+</div>
